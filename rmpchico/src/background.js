@@ -9,18 +9,31 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'teacherInfo') {
     (async () => {
       try {
-        const schools = await ratings.searchTeacher('herring', 'U2Nob29sLTE1OQ==');
+        const teacher = await ratings.searchTeacher(`${request.profName}`, 'U2Nob29sLTE1OQ==');
         sendResponse({
-          schools
+          teacher
         });
       } catch (error) {
-        console.error('Error:', error);
         sendResponse({
-          error: 'An error occurred while searching for schools.',
+          error: error,
         });
       }
     })();
     return true;
+  } else if (request.action == 'teacherRating') {
+    (async () => {
+      try {
+        const rating = await ratings.getTeacher(`${request.profID}`);
+        sendResponse({
+          rating
+        });
+      } catch (error) {
+        sendResponse({
+          error: error,
+        });
+      }
+    })();
+    return true;  
   }
 });
 
