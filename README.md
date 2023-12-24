@@ -1,6 +1,6 @@
 # <img src="public/icons/icon_48.png" width="45" align="left"> Chico State Auto RMP
 A chrome extension that with a click of a button shows a professor's rate my professor score next to their name, with an additional popup with more information.
-## To Work On Code Yourself:
+## Installation Instructions:
 
 The first thing to do is to clone the repository:
 ```sh
