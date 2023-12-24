@@ -11,7 +11,7 @@ Install all dependencies:
 ```sh
 $ npm install
 ```
-Install extension:
+Upload extension to browser:
 ```sh
 1. Navigate to: chrome://extensions/
 2. Enable Developer Mode [top right]
