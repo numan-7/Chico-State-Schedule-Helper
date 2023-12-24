@@ -6,8 +6,15 @@ import ratings from '@mtucourses/rate-my-professors';
 // See https://developer.chrome.com/extensions/background_pages
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === 'teacherInfo') {
+  if (request.request === 'startSearch') {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const activeTabId = tabs[0].id;
+      chrome.tabs.sendMessage(activeTabId, { action: 'startSearchInContentScript' });
+    });
+    sendResponse({ status: 'Search started successfully' });
+  } else if (request.action === 'teacherInfo') {
     (async () => {
+      console.log('Teacher Info & Shit')
       try {
         const teacher = await ratings.searchTeacher(`${request.profName}`, 'U2Nob29sLTE1OQ==');
         sendResponse({
@@ -36,4 +43,3 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;  
   }
 });
-
