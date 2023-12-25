@@ -17,6 +17,7 @@ Upload extension to browser:
 3. Click 'Load Unpacked' [top left]
 4. Navigate to ChicoStateRMP-Extension\build
 5. Click Select Folder
+6. Done!
 ```
 ---
 This project was bootstrapped with [Chrome Extension CLI](https://github.com/dutiyesh/chrome-extension-cli)
