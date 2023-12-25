@@ -3,6 +3,8 @@ A Chrome extension that with a click of a button shows a professor's rate my pro
 ## Installation Instructions:
 
 Clone/Download Files:
+<br/>
+<a href = "public/imgs/download.gif">how to download</a>
 ```sh
 $ git clone git@github.com:numan-7/ChicoStateRMP-Extension.git
 $ cd ChicoStateRMP-Extension
