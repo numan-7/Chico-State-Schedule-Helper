@@ -177,7 +177,11 @@ function dragElement(elmnt) {
   }
 }
 
-
+// Create hidden audio tag
+const audio = new Audio();
+audio.src = "https://www.myinstants.com/media/sounds/chipi-chipi-chapa-chapa.mp3";
+audio.style.display = 'none';
+audio.volume = 0.2;
 
 // button by proffesor's name
 const createButton = (difficulty, Newstyles) => {
@@ -186,18 +190,28 @@ const createButton = (difficulty, Newstyles) => {
   button.style = Newstyles;
   button.innerText = difficulty.avgRating;
 
+  // Append the button and audio to the document
+  document.body.appendChild(button);
+  document.body.appendChild(audio);
   return button;
 };
 
 // if someone clicks the button open up the popup
 const addEventListeners = (button, hiddenDiv) => {
   button.addEventListener('click', () => {
+    audio.pause();
+    audio.currentTime = 0;
+    if(parseFloat(button.textContent) >= 4) {
+      audio.play();
+    }
     hiddenDiv.style.display = 'block';
   });
 
   // if someone clicks the hidden div close button, hide it
   hiddenDiv.querySelector('.closeBtn').addEventListener('click', () => {
     hiddenDiv.style.display = 'none';
+    audio.pause();
+    audio.currentTime = 0;
   });
 };
 
