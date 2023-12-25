@@ -86,6 +86,7 @@ const createContainer = () => {
 const createHiddenDiv = (difficulty) => {
   const hiddenDiv = document.createElement('div');
   hiddenDiv.classList.add('hiddenDiv');
+  hiddenDiv.setAttribute('id', 'hiddenDiv')
   hiddenDiv.style.display = 'none';
   hiddenDiv.style.padding = '2px';
   hiddenDiv.style.width = '100%';
@@ -108,9 +109,10 @@ const createHiddenDiv = (difficulty) => {
   hiddenDiv.style.top = '-175px';
   hiddenDiv.style.left = '-90px';
   hiddenDiv.style.overflow = 'auto';
+  hiddenDiv.style.zIndex = '99999';
 
   hiddenDiv.innerHTML = `
-      <div style="font-family: 'Poppins', sans-serif; display: flex; justify-content: space-between; width: 100%;">
+      <div class = "titleBar" style="font-family: 'Poppins', sans-serif; display: flex; justify-content: space-between; width: 100%;">
           <span><a href = "https://www.ratemyprofessors.com/professor/${
             difficulty.legacyId
           }" target = "_blank" ">${
@@ -134,9 +136,48 @@ const createHiddenDiv = (difficulty) => {
           }%</strong> would take again </span>
       </div>
   `;
-
+  // from: https://www.w3schools.com/howto/howto_js_draggable.asp
+  dragElement(hiddenDiv);
   return hiddenDiv;
 };
+
+function dragElement(elmnt) {
+  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  const titleBar = elmnt.querySelector('.titleBar');
+  const iframe = document.getElementById('main_iframe');
+  const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+  titleBar.addEventListener('mousedown', (e) => dragMouseDown(e, iframeDocument));
+
+  function dragMouseDown(e, iframeDocument) {
+    e.preventDefault();
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    iframeDocument.addEventListener('mouseup', closeDragElement);
+    iframeDocument.addEventListener('mousemove', elementDrag);
+  }
+
+  function elementDrag(e) {
+    e.preventDefault();
+    console.log("dragging and all that");
+    // Calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // Set the element's new position:
+    elmnt.style.top = elmnt.offsetTop - pos2 + "px";
+    elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
+  }
+
+  function closeDragElement() {
+    // Stop moving when the mouse button is released:
+    iframeDocument.removeEventListener('mouseup', closeDragElement);
+    iframeDocument.removeEventListener('mousemove', elementDrag);
+  }
+}
+
+
 
 // button by proffesor's name
 const createButton = (difficulty, Newstyles) => {
@@ -217,7 +258,7 @@ const getProfNames = async () => {
   }
 };
 
-// wait for user to click button ^-^
+// Wait for the user to click the button
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   if (request.action === 'startSearchInContentScript') {
     await getProfNames();
