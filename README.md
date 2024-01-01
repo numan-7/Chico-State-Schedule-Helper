@@ -2,7 +2,7 @@
 A Chrome extension that with a click of a button shows a professor's rate my professor score next to their name, with an additional popup with more information.
 <br />
 
-<a href = "https://chromewebstore.google.com/detail/chico-state-portal-auto-r/bpgjphpemidkmnfobmdjijciacdafipe?hl=en">Click Here to Download Extension</a>
+<a href = "https://chromewebstore.google.com/detail/chico-state-portal-auto-r/bpgjphpemidkmnfobmdjijciacdafipe?hl=en" target = "_blank">Click Here to Download Extension</a>
 
 <img src = "public/imgs/preview.gif" />
 
