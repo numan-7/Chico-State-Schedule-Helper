@@ -165,63 +165,66 @@ const addEventListeners = (button, hiddenDiv, profID) => {
 };
 
 const getProfNames = async () => {
-  // all classes that get inserted in are in an iframe...so i have to get the iframe content 
-  const iframe = document.getElementById('main_iframe');
-  // if iframe
-  if (iframe) {
-    // get the document inside the iframe so i can query it
-    let iframeDocument =
-      iframe.contentDocument || iframe.contentWindow.document;
-    // get all the a tags with that class, which is only the professor name a tag
-    let anchorElements = iframeDocument.getElementsByClassName(
-      'MuiLink-underlineHover'
-    );
-    // same thing as above ngl lol
-    let profNames = iframeDocument.querySelectorAll(
-      'a.MuiTypography-root.MuiLink-root.MuiLink-underlineHover.d-inline.MuiTypography-body1.MuiTypography-colorPrimary'
-    );
-    // if found
-    if (anchorElements.length > 0) {
-      // create an array out of the a tags
-      let anchorArray = Array.from(anchorElements);
-      let nameArray = [];
-      // push an object that contains each professor's name from each a tag's text content
-      anchorArray.forEach((anchorElement) => {
-        nameArray.push({ profName: anchorElement.textContent });
-      });
-      // for each professor, create the rating button/popup
-      profNames.forEach(async (prof, i) => {
-        if (!prof.parentNode.classList.contains('prof-rating')) {
-          // going to insert the button inside the parent div of the professor a tag
-          let parentElement = prof.parentNode.parentNode.parentNode;
-          // get all the info
-          const difficulty = await getProfInfo(nameArray[i].profName);
-          // create create create
-          if (difficulty != null && difficulty.wouldTakeAgainPercent != -1) {
-            let Newstyles =
-              difficulty.avgRating >= 4
-                ? styles + goodStyle
-                : difficulty.avgRating >= 3
-                ? styles + okStyle
-                : styles + badStyle;
+  return new Promise(async (resolve) => {
+    // all classes that get inserted in are in an iframe...so I have to get the iframe content 
+    const iframe = document.getElementById('main_iframe');
+    // if iframe
+    if (iframe) {
+      // get the document inside the iframe so I can query it
+      let iframeDocument =
+        iframe.contentDocument || iframe.contentWindow.document;
+      // get all the a tags with that class, which is only the professor name a tag
+      let anchorElements = iframeDocument.getElementsByClassName(
+        'MuiLink-underlineHover'
+      );
+      // same thing as above ngl lol
+      let profNames = iframeDocument.querySelectorAll(
+        'a.MuiTypography-root.MuiLink-root.MuiLink-underlineHover.d-inline.MuiTypography-body1.MuiTypography-colorPrimary'
+      );
+      // if found
+      if (anchorElements.length > 0) {
+        // create an array out of the a tags
+        let anchorArray = Array.from(anchorElements);
+        let nameArray = [];
+        // push an object that contains each professor's name from each a tag's text content
+        anchorArray.forEach((anchorElement) => {
+          nameArray.push({ profName: anchorElement.textContent });
+        });
+        // processes each professor by creating an array from profNames and then waits for all results to be resolved
+        await Promise.all(Array.from(profNames).map(async (prof, i) => {
+          if (!prof.parentNode.classList.contains('prof-rating')) {
+            // going to insert the button inside the parent div of the professor a tag
+            let parentElement = prof.parentNode.parentNode.parentNode;
+            // get all the info
+            const difficulty = await getProfInfo(nameArray[i].profName);
+            // create create create
+            if (difficulty != null && difficulty.wouldTakeAgainPercent != -1) {
+              let Newstyles =
+                difficulty.avgRating >= 4
+                  ? styles + goodStyle
+                  : difficulty.avgRating >= 3
+                  ? styles + okStyle
+                  : styles + badStyle;
 
-            const container = createContainer();
-            const hiddenDiv = createHiddenDiv(difficulty);
-            const button = createButton(difficulty, Newstyles);
+              const container = createContainer();
+              const hiddenDiv = createHiddenDiv(difficulty);
+              const button = createButton(difficulty, Newstyles);
 
-            container.appendChild(hiddenDiv);
-            container.appendChild(button);
-            parentElement.appendChild(container);
+              container.appendChild(hiddenDiv);
+              container.appendChild(button);
+              parentElement.appendChild(container);
 
-            addEventListeners(button, hiddenDiv, difficulty.legacyId);
-            prof.parentNode.classList.add('prof-rating');
+              addEventListeners(button, hiddenDiv, difficulty.legacyId);
+              prof.parentNode.classList.add('prof-rating');
+            }
           }
-        }
-      });
+        }));
+        resolve();
+      }
+    } else {
+      console.err('Iframe with ID "main_iframe" not found.');
     }
-  } else {
-    console.log('Iframe with ID "main_iframe" not found.');
-  }
+  });
 };
 
 // Wait for the user to click the button
