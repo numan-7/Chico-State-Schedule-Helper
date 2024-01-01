@@ -228,5 +228,7 @@ const getProfNames = async () => {
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   if (request.action === 'startSearchInContentScript') {
     await getProfNames();
+    // indicate to user that searching is done
+    chrome.runtime.sendMessage({action: 'updatePopup'});
   }
 });

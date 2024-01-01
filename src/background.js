@@ -11,10 +11,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const activeTabId = tabs[0].id;
       chrome.tabs.sendMessage(activeTabId, { action: 'startSearchInContentScript' });
     });
-    sendResponse({ status: 'Search started successfully' });
   } else if (request.action === 'teacherInfo') {
     (async () => {
-      console.log('Teacher Info & Shit')
       try {
         const teacher = await ratings.searchTeacher(`${request.profName}`, 'U2Nob29sLTE1OQ==');
         sendResponse({
@@ -27,7 +25,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
     })();
     return true;
-  } else if (request.action == 'teacherRating') {
+  } else if (request.action === 'teacherRating') {
     (async () => {
       try {
         const rating = await ratings.getTeacher(`${request.profID}`);
@@ -41,5 +39,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
     })();
     return true;  
+  } else if (request.action === 'updatePopup') {
+    chrome.runtime.sendMessage({ action: 'done'});
   }
 });
