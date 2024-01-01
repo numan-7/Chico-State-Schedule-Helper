@@ -113,12 +113,7 @@ const createHiddenDiv = (difficulty) => {
 
   hiddenDiv.innerHTML = `
       <div class = "titleBar" style="font-family: 'Poppins', sans-serif; display: flex; justify-content: space-between; width: 100%;">
-          <span><a href = "https://www.ratemyprofessors.com/professor/${
-            difficulty.legacyId
-          }" target = "_blank" ">${
-    difficulty.firstName + ' ' + difficulty.lastName
-  }</a></span>
-          <span class="closeBtn"><strong>X</strong></span>
+          <span>${difficulty.firstName + ' ' + difficulty.lastName}</span>
       </div>
       <hr style="margin-top: 1px; color: black;" />
       <div style="font-size: .85rem; font-family: 'Poppins', sans-serif; display: flex; flex-direction: column;">
@@ -136,46 +131,8 @@ const createHiddenDiv = (difficulty) => {
           }%</strong> would take again </span>
       </div>
   `;
-  // from: https://www.w3schools.com/howto/howto_js_draggable.asp
-  dragElement(hiddenDiv);
   return hiddenDiv;
 };
-
-function dragElement(elmnt) {
-  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  const titleBar = elmnt.querySelector('.titleBar');
-  const iframe = document.getElementById('main_iframe');
-  const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-
-  titleBar.addEventListener('mousedown', (e) => dragMouseDown(e, iframeDocument));
-
-  function dragMouseDown(e, iframeDocument) {
-    e.preventDefault();
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    iframeDocument.addEventListener('mouseup', closeDragElement);
-    iframeDocument.addEventListener('mousemove', elementDrag);
-  }
-
-  function elementDrag(e) {
-    e.preventDefault();
-    console.log("dragging and all that");
-    // Calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    // Set the element's new position:
-    elmnt.style.top = elmnt.offsetTop - pos2 + "px";
-    elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
-  }
-
-  function closeDragElement() {
-    // Stop moving when the mouse button is released:
-    iframeDocument.removeEventListener('mouseup', closeDragElement);
-    iframeDocument.removeEventListener('mousemove', elementDrag);
-  }
-}
 
 
 // button by proffesor's name
@@ -188,15 +145,23 @@ const createButton = (difficulty, Newstyles) => {
 };
 
 // if someone clicks the button open up the popup
-const addEventListeners = (button, hiddenDiv) => {
-  button.addEventListener('click', () => {
+const addEventListeners = (button, hiddenDiv, profID) => {
+  button.addEventListener('mouseenter', () => {
+    button.style.transform = 'scale(1.02)';
+    button.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
     hiddenDiv.style.display = 'block';
   });
 
-  // if someone clicks the hidden div close button, hide it
-  hiddenDiv.querySelector('.closeBtn').addEventListener('click', () => {
+  button.addEventListener('mouseleave', () => {
+    button.style.transform = 'scale(1)';
+    button.style.boxShadow = ''
     hiddenDiv.style.display = 'none';
   });
+  
+  button.addEventListener('click', () => {
+    const profURL = `https://www.ratemyprofessors.com/professor/${profID}`;
+    window.open(profURL, '_blank');
+  })
 };
 
 const getProfNames = async () => {
@@ -248,7 +213,7 @@ const getProfNames = async () => {
             container.appendChild(button);
             parentElement.appendChild(container);
 
-            addEventListeners(button, hiddenDiv);
+            addEventListeners(button, hiddenDiv, difficulty.legacyId);
             prof.parentNode.classList.add('prof-rating');
           }
         }
