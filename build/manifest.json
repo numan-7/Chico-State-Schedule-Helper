@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "Chico State Portal Auto RMP",
   "author": "Numan Khan",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "host_permissions": ["https://*.cmsweb.csuchico.edu/*"],
   "description": "Extension that shows professor's rate my professor score next to their name on portal with a click of a button!",
   "icons": {
     "16": "icons/icon_16.png",
