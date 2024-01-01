@@ -3,7 +3,7 @@
   "name": "Chico State Portal Auto RMP",
   "author": "Numan Khan",
   "version": "1.0.2",
-  "host_permissions": ["https://*.cmsweb.csuchico.edu/*"],
+  "host_permissions": ["https://*.cmsweb.csuchico.edu/*", "https://*.ratemyprofessors.com/*"],
   "description": "Extension that shows professor's rate my professor score next to their name on portal with a click of a button!",
   "icons": {
     "16": "icons/icon_16.png",
@@ -23,12 +23,17 @@
   "content_scripts": [
     {
       "matches": [
-        "<all_urls>"
+        "https://*.cmsweb.csuchico.edu/*", 
+        "https://*.ratemyprofessors.com/*"
       ],
       "run_at": "document_idle",
       "js": [
         "contentScript.js"
       ] 
     }
-  ]
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';",
+    "sandboxed_pages":"script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  }
 }
