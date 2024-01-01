@@ -226,28 +226,31 @@ const getProfNames = async () => {
       });
       // for each professor, create the rating button/popup
       profNames.forEach(async (prof, i) => {
-        // going to insert the button inside the parent div of the professor a tag
-        let parentElement = prof.parentNode.parentNode.parentNode;
-        // get all the info
-        const difficulty = await getProfInfo(nameArray[i].profName);
-        // create create create
-        if (difficulty != null && difficulty.wouldTakeAgainPercent != -1) {
-          let Newstyles =
-            difficulty.avgRating >= 4
-              ? styles + goodStyle
-              : difficulty.avgRating >= 3
-              ? styles + okStyle
-              : styles + badStyle;
+        if (!prof.parentNode.classList.contains('prof-rating')) {
+          // going to insert the button inside the parent div of the professor a tag
+          let parentElement = prof.parentNode.parentNode.parentNode;
+          // get all the info
+          const difficulty = await getProfInfo(nameArray[i].profName);
+          // create create create
+          if (difficulty != null && difficulty.wouldTakeAgainPercent != -1) {
+            let Newstyles =
+              difficulty.avgRating >= 4
+                ? styles + goodStyle
+                : difficulty.avgRating >= 3
+                ? styles + okStyle
+                : styles + badStyle;
 
-          const container = createContainer();
-          const hiddenDiv = createHiddenDiv(difficulty);
-          const button = createButton(difficulty, Newstyles);
+            const container = createContainer();
+            const hiddenDiv = createHiddenDiv(difficulty);
+            const button = createButton(difficulty, Newstyles);
 
-          container.appendChild(hiddenDiv);
-          container.appendChild(button);
-          parentElement.appendChild(container);
+            container.appendChild(hiddenDiv);
+            container.appendChild(button);
+            parentElement.appendChild(container);
 
-          addEventListeners(button, hiddenDiv);
+            addEventListeners(button, hiddenDiv);
+            prof.parentNode.classList.add('prof-rating');
+          }
         }
       });
     }
