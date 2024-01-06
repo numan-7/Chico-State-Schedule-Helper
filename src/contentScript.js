@@ -227,7 +227,8 @@ const getProfNames = async () => {
                   : styles + badStyle;
 
               const container = createContainer();
-              const hiddenDiv = createHiddenDiv(difficulty);
+              let hiddenDiv = createHiddenDiv(difficulty);
+              version == 1 ? hiddenDiv.style.height = '134px' : '';
               const button = createButton(difficulty, Newstyles);
 
               container.appendChild(hiddenDiv);
