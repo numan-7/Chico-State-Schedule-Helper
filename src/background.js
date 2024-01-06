@@ -39,7 +39,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
     })();
     return true;  
-  } else if (request.action === 'updatePopup') {
-    chrome.runtime.sendMessage({ action: 'done'});
   }
 });

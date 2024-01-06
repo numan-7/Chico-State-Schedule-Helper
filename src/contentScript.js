@@ -3,7 +3,7 @@ const chicoID = 'U2Nob29sLTE1OQ==';
 
 let styles =
   'border-radius: 5px; letter-spacing: 2px; margin-left: 3px; padding: 1px 12px; font-style: inherit; font-weight: bold; cursor: pointer;';
-const goodStyle =
+  const goodStyle =
   'background: #ECFDF5; border: 1px solid #047857; color: #047857;';
 const okStyle =
   'background: #FFFBEB; border: 1px solid #FBBF24; color: #FBBF24;';
@@ -88,48 +88,44 @@ const createHiddenDiv = (difficulty) => {
   hiddenDiv.classList.add('hiddenDiv');
   hiddenDiv.setAttribute('id', 'hiddenDiv')
   hiddenDiv.style.display = 'none';
+  hiddenDiv.style.fontFamily = "'Poppins', sans-serif";
   hiddenDiv.style.padding = '2px';
-  hiddenDiv.style.width = '100%';
+  hiddenDiv.style.width = '210px';
+  hiddenDiv.style.background = '#ffffff';
   hiddenDiv.style.borderRadius = '5px';
-  hiddenDiv.style.background =
-    difficulty.avgRating >= 4
-      ? '#ECFDF5'
-      : difficulty.avgRating >= 3
-      ? '#FFFBEB'
-      : '#FEF2F2';
   hiddenDiv.style.border =
     difficulty.avgRating >= 4
       ? '1px solid #047857'
       : difficulty.avgRating >= 3
       ? '1px solid #FBBF24'
       : '1px solid #F87171';
-  hiddenDiv.style.width = '250px';
-  hiddenDiv.style.height = '150px';
+  hiddenDiv.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)'
+  hiddenDiv.style.height = '120px';
   hiddenDiv.style.position = 'absolute';
-  hiddenDiv.style.top = '-175px';
-  hiddenDiv.style.left = '-90px';
-  hiddenDiv.style.overflow = 'auto';
+  hiddenDiv.style.top = '-140px';
+  hiddenDiv.style.left = '-70px';
   hiddenDiv.style.zIndex = '99999';
-
+      
   hiddenDiv.innerHTML = `
-      <div class = "titleBar" style="font-family: 'Poppins', sans-serif; display: flex; justify-content: space-between; width: 100%;">
-          <span>${difficulty.firstName + ' ' + difficulty.lastName}</span>
+    <span style="position: relative; text-transform: uppercase;">
+    <span style = "font-weight: bold; font-size: 1.55rem;">${difficulty.avgRating}</span>
+    <span style = " font-size: .65rem; position: absolute; right: -15px; top: -2px;"> / 5</span>
+    </span>
+    <br/>
+    <div style = "margin-top: -5px; font-weight: 800; font-size: .65rem;">Overall Quality Based on <u>${difficulty.numRatings} ratings</u></div>
+    <div class="titleBar" style="overflow: hidden; margin-top: -5px; font-family: 'Poppins', sans-serif; display: flex; justify-content: space-between; width: 100%;">
+          <span style="font-size: 1.55rem; font-weight: 800; overflow: hidden; text-overflow: ellipsis;  white-space: nowrap;">${difficulty.firstName + ' ' + difficulty.lastName}</span>
+    </div>
+    <div style="padding: 0 5px; font-size: .85rem; font-family: 'Poppins', sans-serif; display: flex; justify-content: space-between; flex-direction: row;">
+      <div style = "font-size: 1rem; font-weight: 800; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-right: 3px; padding-right: 3px;">
+          <span>${Math.ceil(difficulty.wouldTakeAgainPercent)}%</span>
+          <span style = "font-size: .6rem; font-weight: 400;">Would Take again</span>
       </div>
-      <hr style="margin-top: 1px; color: black;" />
-      <div style="font-size: .85rem; font-family: 'Poppins', sans-serif; display: flex; flex-direction: column;">
-          <span style = "text-transform: uppercase;"><strong style = "font-size: 1.15rem;" >${
-            difficulty.numRatings
-          }</strong> total ratings</span>
-          <span style = "text-transform: uppercase;"><strong style = "font-size: 1.15rem;" >${
-            difficulty.avgRating
-          }</strong> average rating</span>
-          <span style = "text-transform: uppercase;"><strong style = "font-size: 1.15rem;" >${
-            difficulty.avgDifficulty
-          }</strong> average difficulty</span>
-          <span style = "text-transform: uppercase;"><strong style = "font-size: 1.15rem;" >${
-            difficulty.wouldTakeAgainPercent
-          }%</strong> would take again </span>
+      <div style = "font-size: 1rem; font-weight: 800; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <span>${difficulty.avgDifficulty}</span>
+          <span style = "font-size: .6rem; font-weight: 400;">Level of Difficulty</span>
       </div>
+    </div>
   `;
   return hiddenDiv;
 };
@@ -165,11 +161,13 @@ const addEventListeners = (button, hiddenDiv, profID) => {
 };
 
 const getProfNames = async () => {
+  // return a promise, so i can signal it's done to renable button later
   return new Promise(async (resolve) => {
     // all classes that get inserted in are in an iframe...so I have to get the iframe content 
-    const iframe = document.getElementById('main_iframe');
+    const iframe = document.getElementById('main_iframe') || document.getElementById('ptifrmtgtframe');
     // if iframe
     if (iframe) {
+      let version = 0;
       // get the document inside the iframe so I can query it
       let iframeDocument =
         iframe.contentDocument || iframe.contentWindow.document;
@@ -181,6 +179,21 @@ const getProfNames = async () => {
       let profNames = iframeDocument.querySelectorAll(
         'a.MuiTypography-root.MuiLink-root.MuiLink-underlineHover.d-inline.MuiTypography-body1.MuiTypography-colorPrimary'
       );
+
+      if(!anchorElements.length) {
+        // signal that we're on schedule builder section page ^-^
+        version = 1;
+        anchorElements = Array.from(iframeDocument.querySelectorAll("div.cx-MuiGrid-root.px-1.d-flex.css-t8n52r.cx-MuiGrid-item.cx-MuiGrid-zeroMinWidth.cx-MuiGrid-grid-xs-4"))
+          .filter((div, i) => i % 5 === 0 && div !== undefined);
+        // need to get a node list to convert the array back into a node list
+        const nodeList = document.querySelectorAll("meoooooowwwwwwwwwwwwwwww");
+        // now just turn the node list which we turned into an array back into a node list...
+        anchorElements.forEach((element) => {
+          nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
+        });
+        profNames = anchorElements;
+      }
+
       // if found
       if (anchorElements.length > 0) {
         // create an array out of the a tags
@@ -194,7 +207,7 @@ const getProfNames = async () => {
         await Promise.all(Array.from(profNames).map(async (prof, i) => {
           if (!prof.parentNode.classList.contains('prof-rating')) {
             // going to insert the button inside the parent div of the professor a tag
-            let parentElement = prof.parentNode.parentNode.parentNode;
+            let parentElement = version == 0 ? prof.parentNode.parentNode.parentNode : prof;
             // get all the info
             const difficulty = await getProfInfo(nameArray[i].profName);
             // create create create
@@ -222,7 +235,7 @@ const getProfNames = async () => {
         resolve();
       }
     } else {
-      console.err('Iframe with ID "main_iframe" not found.');
+      console.error('Iframe with ID "main_iframe" not found.');
     }
   });
 };
