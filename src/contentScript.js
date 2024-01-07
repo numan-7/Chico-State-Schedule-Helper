@@ -82,11 +82,11 @@ const createContainer = () => {
         position: absolute;
         top: 116px;
         right: 0;
-        left: 81px;
+        left: 93px;
         margin: 0 auto;
         width: 0;
         height: 0;
-        border-top: solid 10px rgb(0,0,0,.25);
+        border-top: solid 10px rgb(0,0,0,.85);
         border-left: solid 10px transparent;
         border-right: solid 10px transparent;     
       }
@@ -106,16 +106,11 @@ const createHiddenDiv = (difficulty) => {
   hiddenDiv.style.width = '210px';
   hiddenDiv.style.background = '#ffffff';
   hiddenDiv.style.borderRadius = '5px';
-  hiddenDiv.style.border =
-    difficulty.avgRating >= 4
-      ? '1px solid #03654B'
-      : difficulty.avgRating >= 3
-      ? '1px solid #EBB521'
-      : '1px solid #EE5F5F';
+  hiddenDiv.style.border = '1px solid black';
   hiddenDiv.style.height = '120px';
   hiddenDiv.style.position = 'absolute';
   hiddenDiv.style.top = '-145px';
-  hiddenDiv.style.left = '-70px';
+  hiddenDiv.style.left = '-81px';
   hiddenDiv.style.zIndex = '99999';
       
   hiddenDiv.innerHTML = `
@@ -133,7 +128,7 @@ const createHiddenDiv = (difficulty) => {
           <span>${Math.ceil(difficulty.wouldTakeAgainPercent)}%</span>
           <span style = "color: grey; font-size: .6rem; font-weight: 400;">Would Take again</span>
       </div>
-      <div style = "font-size: 1.2rem; font-weight: 800; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div style = "width: 50%; border-left: 1px solid black; font-size: 1.2rem; font-weight: 800; display: flex; flex-direction: column; align-items: center; justify-content: center;">
           <span>${difficulty.avgDifficulty}</span>
           <span style = "color: grey; font-size: .6rem; font-weight: 400;">Level of Difficulty</span>
       </div>
