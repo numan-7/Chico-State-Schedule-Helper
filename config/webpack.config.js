@@ -12,6 +12,9 @@ const config = (env, argv) =>
       popup: PATHS.src + '/popup.js',
       contentScript: PATHS.src + '/contentScript.js',
       background: PATHS.src + '/background.js',
+      scheduleBuilderScript: PATHS.src + '/scheduleBuilderScript.js',
+      teacherUtils: PATHS.src + '/teacherUtils.js',
+      ratingUtils: PATHS.src + '/ratingUtils.js',
     },
     devtool: argv.mode === 'production' ? false : 'source-map',
   });

@@ -1,9 +1,11 @@
 'use strict';
 import ratings from '@mtucourses/rate-my-professors';
-// With background scripts you can communicate with popup
-// and contentScript files.
-// For more information on background script,
-// See https://developer.chrome.com/extensions/background_pages
+
+/*
+
+  This is the background script that handles all the API calls since background scripts are the only files that are allowed to make API calls.
+
+*/
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.request === 'startSearch') {
@@ -39,5 +41,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
     })();
     return true;  
+  } else if (request.action === 'updatePopup') {
   }
 });
