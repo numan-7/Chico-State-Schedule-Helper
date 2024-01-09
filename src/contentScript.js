@@ -72,6 +72,12 @@ const getProfNames = async () => {
         // This checks if User is in Schedule Builder -> Select Sections
         targetElements = Array.from(iframeDocument.querySelectorAll("div.cx-MuiGrid-root.px-1.d-flex.css-t8n52r.cx-MuiGrid-item.cx-MuiGrid-zeroMinWidth.cx-MuiGrid-grid-xs-4"))
           .filter((div, i) => i % 5 === 0 && div !== undefined);
+        // Check if we're in Enrollment -> Shopping Cart
+        if(!targetElements.length) {
+          version = 3;
+          targetElements = Array.from(iframeDocument.querySelectorAll('p.cx-MuiTypography-root.css-geruia.cx-MuiTypography-body2.cx-MuiTypography-colorInherit.cx-MuiTypography-noWrap.cx-MuiTypography-alignLeft'))
+            .filter((div, i) => (i % 8) == 6 && div !== undefined);
+        } 
         // If previous check returns empty, we MUST be in Schedule Builder -> Build Schedule
         if(!targetElements.length){
           // Signal that we're in Build Schedule
@@ -79,7 +85,8 @@ const getProfNames = async () => {
           // Simulate Button Clicks and Get Prof Names
           classAndProf = await clickButtons();
           targetElements = classAndProf.map((classBtn) => classBtn.btn);
-        } else {
+        } else if(version != 3){
+          version = 1;
           // Need to get a node list to convert the array back into a node list
           const nodeList = document.querySelectorAll("ThisReturnsAnEmptyNodeList");
           // Now just turn the node list which we turned into an array back into a node list...
@@ -108,6 +115,8 @@ const getProfNames = async () => {
                   prof.parentNode.parentNode.parentNode :
                 version == 2 ?
                   prof.parentNode.parentNode :
+                version === 3 ?
+                  prof.parentNode :
                 prof;
             // Styling Changes Needed For Build Schedule Page
             if(version == 2) {
@@ -133,13 +142,13 @@ const getProfNames = async () => {
               container.appendChild(button);
               
               // If we're under Schedule Builder, Buttons need to be bigger
-              if(version != 0){
-                hiddenDiv.style.height = '134px';
+              if(version != 0 && version != 3){
                 button.style.height = '100%';
                 container.style.height = '100%';
               }
               parentElement.appendChild(container);
               addEventListeners(button, hiddenDiv, difficulty.legacyId);
+              version != 0 ? hiddenDiv.style.height = '134px' : ''
               version != 2 ? prof.parentNode.classList.add('prof-rating'): '';
               if (version == 2 && (!mutationButton || !mutationButton.classList.contains('cx-MuiButton-containedPrimary'))) {
                 const buttons = iframeDocument.querySelectorAll('.cx-MuiButton-containedPrimary');
