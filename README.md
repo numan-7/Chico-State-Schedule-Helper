@@ -1,4 +1,4 @@
-# <img src="public/icons/icon_48.png" width="45" align="left"> Chico State Auto Rate My Professor
+# <img src="public/icons/icon_48.png" width="45" align="left"> Chico State Schedule Helper
 A Chrome extension that with a click of a button shows a professor's rate my professor score next to their name, with an additional popup with more information.
 <br />
 

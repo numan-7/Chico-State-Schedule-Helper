@@ -95,7 +95,7 @@ const getProfNames = async () => {
           });
         }
       }
-
+      
       // If we're on any of the three pages now
       if (targetElements.length > 0) {
         // Create an array out of the target Elements...
