@@ -45,7 +45,7 @@ async function clickButtons() {
             const b = buttons[i];
             b.click();
             const elements = Array.from(iframeDocument.querySelectorAll("dd.cx-MuiTypography-root.css-1xnpogb.d-flex.align-items-center.pb-1.pr-1.cx-MuiTypography-body1"));
-            if(elements) {
+            if(elements && elements[3]) {
                 btnAndName.push({ btn: b, textContent: elements[3].textContent });
                 const popupButtons = iframeDocument.querySelectorAll('.cx-MuiButtonBase-root.cx-MuiIconButton-root');
                 if (popupButtons[3]) {
