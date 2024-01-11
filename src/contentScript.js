@@ -51,12 +51,12 @@ async function getShoppingCartOrSchedulePage(iframeDocument) {
   let version = 1;
   let onSelectSections = Array.from(iframeDocument.querySelectorAll("div.cx-MuiGrid-root.px-1.d-flex.css-t8n52r.cx-MuiGrid-item.cx-MuiGrid-zeroMinWidth.cx-MuiGrid-grid-xs-4"))
     .filter((div, i) => i % 5 === 0 && div !== undefined);
-  const nodeList = document.querySelectorAll("ThisReturnsAnEmptyNodeList");
+  let nodeList = document.querySelectorAll("ThisReturnsAnEmptyNodeList");
   if (onSelectSections.length) {
     onSelectSections.forEach((element) => {
       nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
     });
-    return { page: onSelectSections, version };
+    return { targetElements: onSelectSections, version };
   }
 
   // check if user is on schedle builder -> build schedule
