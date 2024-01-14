@@ -78,6 +78,23 @@ async function getShoppingCartOrSchedulePage(iframeDocument) {
     return { targetElements: onShoppingCart, version };
   }
 
+  // check if user is on my schedule or friends page
+  version = 4;
+  let allElements = Array.from(iframeDocument.querySelectorAll('div.cx-MuiGrid-root.cx-MuiGrid-item.cx-MuiGrid-align-items-xs-center.cx-MuiGrid-grid-xs-2'));
+  if(allElements[0].textContent === 'FriendsActions') {
+    allElements = allElements.filter((_, i) => ((i - 1) % 8) == 0)
+  } else {
+    allElements = allElements.filter((_, i) => ((i % 7) == 0));
+  } 
+  allElements.forEach((element) => {
+    nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
+  });
+  
+  if(allElements.length) {
+    return { targetElements: allElements, version };
+  }
+  
+  return {targetElements: '', version: 0};
 }
 
 async function getVersionAndElements(iframeDocument) {
@@ -91,13 +108,18 @@ async function getVersionAndElements(iframeDocument) {
 }
 
 const getCorrectParentNode = (element, version) => {
-  return version == 0 ?
-    element.parentNode.parentNode.parentNode :
-      version == 2 ?
-    element.parentNode.parentNode :
-      version === 3 ?
-    element.parentNode :
-      element;
+  switch (version) {
+    case 0:
+      return element.parentNode.parentNode.parentNode;
+    case 2:
+      return element.parentNode.parentNode;
+    case 3:
+      return element.parentNode;
+    case 4:
+      return element.firstChild;
+    default:
+      return element;
+  }
 }
 
 const getProfNames = async () => {
@@ -105,7 +127,7 @@ const getProfNames = async () => {
     // All classes that get inserted in are in an iframe...so I have to get the iframe content 
     const iframe = document.getElementById('main_iframe') || document.getElementById('ptifrmtgtframe');
     if (!iframe) {
-      throw new error("Iframe does not exist.")
+      throw new Error("Iframe does not exist.")
     }
 
     // Get the document inside the iframe so I can query it
@@ -113,7 +135,7 @@ const getProfNames = async () => {
     // Get Correct Element Depending On The Page
     const { targetElements, version } = await getVersionAndElements(iframeDocument);
     if (!targetElements.length > 0) {
-      throw new error("Target Element(s) Do Not Exist.")
+      throw new Error("Target Element(s) Do Not Exist.")
     }
 
     // Create an array out of the target Elements...
@@ -123,7 +145,7 @@ const getProfNames = async () => {
     // Push an object that contains each professor's name
     anchorArray.forEach((anchorElement) => {
       nameArray.push({
-        profName: anchorElement.textContent
+        profName: anchorElement.textContent.trim()
       });
     });
 
