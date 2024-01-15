@@ -9,7 +9,7 @@ A Chrome extension that with a click of a button shows a professor's rate my pro
 ## Work On It Yourself:
 Clone Repo:
 ```sh
-$ git clone git@github.com:numan-7/ChicoStateRMP-Extension.git
+$ git clone git@github.com:numan-7/Chico-State-Schedule-Helper.git
 $ cd ChicoStateRMP-Extension
 ```
 
@@ -23,7 +23,7 @@ Upload Extension to Browser:
 1. Navigate to: chrome://extensions/
 2. Enable Developer Mode [top right]
 3. Click 'Load Unpacked' [top left]
-4. Navigate to ChicoStateRMP-Extension\build
+4. Navigate to Chico-State-Schedule-Helper\build
 5. Click Select Folder
 ```
 
