@@ -42,6 +42,9 @@
   },
   "web_accessible_resources": [{
     "resources": ["imgs/save.svg"],
-    "matches": ["<all_urls>"]
+    "matches": [
+      "https://*.cmsweb.csuchico.edu/*", 
+      "https://*.ratemyprofessors.com/*"
+    ]
   }]
 }

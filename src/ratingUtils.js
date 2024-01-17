@@ -134,10 +134,20 @@ const addEventListeners = (button, hiddenDiv, profID, sButton) => {
   });
 
   sButton.addEventListener('click', (e) => {
-    sButton.disabled = true;
-    sButton.style.opacity = '0.5';
-    sButton.style.cursor = 'not-allowed';
+    // Get button from event
     const button = e.target;
+    // Disable all buttons associated with that professor
+    const iframe = document.getElementById('main_iframe') || document.getElementById('ptifrmtgtframe');
+    if (!iframe) {
+      return;
+    }
+    let iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+    const elements = iframeDocument.getElementsByClassName(button.getAttribute('data-id'));
+    Array.from(elements).forEach(saveButton => {
+      saveButton.disabled = true;
+      saveButton.style.opacity = '0.5';
+      saveButton.style.cursor = 'not-allowed';
+    })
   
     // Create an object with all data attributes
     const newData = {
