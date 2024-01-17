@@ -18,6 +18,11 @@ Install Packages:
 $ npm install
 ```
 
+Build Extension:
+```sh
+$ npm run watch
+```
+
 Upload Extension to Browser:
 ```sh
 1. Navigate to: chrome://extensions/
