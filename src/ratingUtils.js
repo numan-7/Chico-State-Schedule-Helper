@@ -70,12 +70,13 @@ const createHiddenDiv = (difficulty) => {
 // save button 
 const saveButton = (difficulty, Newstyles) => {
 const button = document.createElement('button');
-button.setAttribute('data-avgDifficulty', difficulty.avgDifficulty)
-button.setAttribute('data-percent', Math.ceil(difficulty.wouldTakeAgainPercent))
-button.setAttribute('data-avgRating', difficulty.avgRating)
-button.setAttribute('data-numRatings',difficulty.numRatings)
-button.setAttribute('data-name', difficulty.firstName + ' ' + difficulty.lastName)
-button.setAttribute('data-id', difficulty.id)
+button.setAttribute('data-avgDifficulty', difficulty.avgDifficulty);
+button.setAttribute('data-percent', Math.ceil(difficulty.wouldTakeAgainPercent));
+button.setAttribute('data-avgRating', difficulty.avgRating);
+button.setAttribute('data-numRatings',difficulty.numRatings);
+button.setAttribute('data-name', difficulty.firstName + ' ' + difficulty.lastName);
+button.setAttribute('data-id', difficulty.id);
+button.classList.add(difficulty.id);
 button.style = Newstyles;
 button.style.width = '25px';
 button.style.letterSpacing = '';
@@ -134,7 +135,7 @@ const addEventListeners = (button, hiddenDiv, profID, sButton) => {
 
   sButton.addEventListener('click', (e) => {
     sButton.disabled = true;
-    sButton.style.opacity = '0.8';
+    sButton.style.opacity = '0.5';
     sButton.style.cursor = 'not-allowed';
     const button = e.target;
   

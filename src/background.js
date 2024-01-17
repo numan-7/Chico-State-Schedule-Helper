@@ -13,6 +13,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       const activeTabId = tabs[0].id;
       chrome.tabs.sendMessage(activeTabId, { action: 'startSearchInContentScript' });
     });
+  } else if(request.action === 'renableButton') {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const activeTabId = tabs[0].id;
+      chrome.tabs.sendMessage(activeTabId, { 
+        action: 'enableButton', 
+        profId: request.profId
+      });
+    });
   } else if (request.action === 'teacherInfo') {
     (async () => {
       try {

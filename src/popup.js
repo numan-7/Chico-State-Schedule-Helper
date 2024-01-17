@@ -125,6 +125,10 @@ chrome.storage.sync.get(null, function(items) {
 
 savedWrapper.addEventListener("click", function(e) {
   if (e.target && e.target.id === "delete") {
+    chrome.runtime.sendMessage({
+      action: 'renableButton',
+      profId: e.target.getAttribute('data-id')
+    })
     handleDelete(e);
   }
 });

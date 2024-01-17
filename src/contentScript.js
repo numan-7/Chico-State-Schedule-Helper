@@ -216,5 +216,17 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     chrome.runtime.sendMessage({
       action: 'updatePopup'
     });
+  } else if (request.action === 'enableButton') {
+    const iframe = document.getElementById('main_iframe') || document.getElementById('ptifrmtgtframe');
+    if (!iframe) {
+      return;
+    }
+    let iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+    const elements = iframeDocument.getElementsByClassName(request.profId);
+    Array.from(elements).forEach(saveButton => {
+      saveButton.removeAttribute("disabled");
+      saveButton.style.opacity = '100%';
+      saveButton.style.cursor = 'pointer';
+     })
   }
 });
