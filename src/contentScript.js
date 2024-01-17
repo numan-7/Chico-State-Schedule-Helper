@@ -1,6 +1,6 @@
 import { clickButtons } from "./scheduleBuilderScript";
 import { getProfInfo } from "./teacherUtils";
-import { addEventListeners, createButton, createContainer, createHiddenDiv } from "./ratingUtils";
+import { addEventListeners, createButton, createContainer, createHiddenDiv, saveButton } from "./ratingUtils";
 
 let styles = 'font-family: "Poppins", sans-serif; border-radius: 5px; letter-spacing: 2px; margin-left: 3px; width: 50px; font-weight: bold; cursor: pointer;';
 const goodStyle = 'background: #ECFDF5; border: 1px solid #008964; color: #047857;';
@@ -81,7 +81,7 @@ async function getShoppingCartOrSchedulePage(iframeDocument) {
   // check if user is on my schedule or friends page
   version = 4;
   let allElements = Array.from(iframeDocument.querySelectorAll('div.cx-MuiGrid-root.cx-MuiGrid-item.cx-MuiGrid-align-items-xs-center.cx-MuiGrid-grid-xs-2'));
-  if(allElements[0].textContent === 'FriendsActions') {
+  if(allElements[0].textContent && allElements[0].textContent === 'FriendsActions') {
     allElements = allElements.filter((_, i) => ((i - 1) % 8) == 0)
   } else {
     allElements = allElements.filter((_, i) => ((i % 7) == 0));
@@ -174,10 +174,12 @@ const getProfNames = async () => {
           const container = createContainer();
           let hiddenDiv = createHiddenDiv(difficulty);
           const button = createButton(difficulty, Newstyles);
-
           container.appendChild(hiddenDiv);
           container.appendChild(button);
-
+          const sButton = saveButton(difficulty, Newstyles);
+          if(version != 2) {
+            container.append(sButton);
+          } 
           // If we're under Schedule Builder, Buttons need to be bigger
           if (version != 0 && version != 3) {
             button.style.height = '100%';
@@ -185,7 +187,7 @@ const getProfNames = async () => {
           }
 
           parentElement.appendChild(container);
-          addEventListeners(button, hiddenDiv, difficulty.legacyId);
+          addEventListeners(button, hiddenDiv, difficulty.legacyId, sButton);
           version != 0 ? hiddenDiv.style.height = '134px' :
             version != 2 ? prof.parentNode.classList.add('prof-rating') : '';
           
