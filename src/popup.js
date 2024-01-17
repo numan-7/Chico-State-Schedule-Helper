@@ -88,7 +88,7 @@ const renderList = (buttonsData) => {
           </div>
           <div style="margin-top: -5px; margin-bottom: -5px; font-weight: 800; font-size: .65rem;">Overall Quality Based on <u>${profData.numRatings} ratings</u></div>
           <span class = "name" style="font-size: 1.35rem; font-weight: 900; overflow: hidden; text-overflow: ellipsis;  white-space: nowrap;">
-          <a href = "https://www.ratemyprofessors.com/professor/${profData.profID}" target="_blank">${profData.name}</a>:&nbsp;
+          <a href = "https://www.ratemyprofessors.com/professor/${profData.profID}" target="_blank">${profData.name}</a>
         </span>
           <div style=" font-size: .85rem; font-family: 'Poppins', sans-serif; display: flex; flex-direction: row; justify-content: space-between;">
             <div style="font-size: 1.1rem; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center;">

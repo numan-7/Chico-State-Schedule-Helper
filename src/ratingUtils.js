@@ -10,7 +10,7 @@ const createContainer = () => {
       .thingy:after {
         content:'';
         position: absolute;
-        top: 116px;
+        top: 115px;
         right: 0;
         left: 93px;
         margin: 0 auto;
