@@ -178,7 +178,22 @@ const getProfNames = async () => {
           container.appendChild(button);
           const sButton = saveButton(difficulty, Newstyles);
           if(version != 2) {
+            chrome.storage.sync.get('buttonsData', function(data) {
+              if (data.buttonsData) {
+                let buttonsData = JSON.parse(data.buttonsData);
+                buttonsData.forEach(obj => {
+                  if(obj.id == difficulty.id){
+                    sButton.disabled=true;
+                    console.log("here");
+                    sButton.style.opacity = '0.5';
+                    sButton.style.cursor = 'not-allowed';
+                  }
+                })
+              }
+            });
             container.append(sButton);
+
+
           } 
           // If we're under Schedule Builder, Buttons need to be bigger
           if (version != 0 && version != 3) {
