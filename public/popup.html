@@ -34,17 +34,21 @@
         width: 100%;
         height: 100%;
       }
+
       #startButton:disabled{
         cursor: not-allowed;
         opacity: 85%;
       }
+
       #startButton:not([disabled]):hover {
         box-shadow: rgba(1, 75, 1, 0.25) 0px 1px 4px;;        
         transform: scale(1.01);
       }
+
       #startButton:not([disabled]):active {
         transform: scale(0.99);
       }
+
       span {
         font-weight: 700;
         letter-spacing: 2px;
@@ -88,14 +92,33 @@
       }
 
       a {
+        position: relative;
         text-decoration: none;
         color: black;
+        overflow: hidden; 
+      }
+
+      a::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: rgb(119, 29, 119);
+        visibility: hidden;
+        transform: scaleX(0);
+        transition: all 0.2s ease-in-out 0s;
+      }
+
+      a:hover::after {
+        visibility: visible;
+        transform: scaleX(1);
       }
 
       a:hover {
-        text-decoration: underline;
+        color: rgb(83, 20, 83);
         cursor: pointer;
-        color: rgb(119, 29, 119);
       }
 
       .empty {

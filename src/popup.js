@@ -76,7 +76,7 @@ const renderList = (buttonsData) => {
 
   buttonsData.forEach(profData => {
     savedWrapper.innerHTML += `
-        <div class = "andIwonderIfyouknow"style = "margin-bottom: 5px; background: #ffffff; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; width: 100%; padding: 5px; border-radius: 5px;">
+        <div class = "andIwonderIfyouknow"style = "transition: 150ms ease-in-out; margin-bottom: 5px; background: #ffffff; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; width: 100%; padding: 5px; border-radius: 5px;">
           <div class="titleBar" style="overflow: hidden; margin-top: -5px; font-family: 'Poppins', sans-serif; position: relative; display: flex; width: 100%;">
           <span style="position: relative; font-weight: 900; font-size: 1.35rem;">
           ${profData.avgRating} 
@@ -103,12 +103,15 @@ const renderList = (buttonsData) => {
         </div>
       `;
   });
+  
   Array.from(document.getElementsByClassName('delete')).forEach((x) => {
     x.addEventListener("mouseover", () => {
       x.parentElement.parentElement.style.boxShadow = 'rgba(255, 0, 0, 0.3) 0px 1px 2px 0px, rgba(255, 0, 0, 0.15) 0px 1px 3px 1px';
+      // x.parentElement.parentElement.style.transform = 'scale(0.99)';
     })
     x.addEventListener("mouseleave", () => {
       x.parentElement.parentElement.style.boxShadow = 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px';
+      // x.parentElement.parentElement.style.transform = 'scale(1.00)';
     })
   })
 };
