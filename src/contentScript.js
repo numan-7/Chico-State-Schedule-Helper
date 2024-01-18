@@ -2,7 +2,7 @@ import { clickButtons } from "./scheduleBuilderScript";
 import { getProfInfo } from "./teacherUtils";
 import { addEventListeners, createButton, createContainer, createHiddenDiv, saveButton } from "./ratingUtils";
 
-let styles = 'font-family: "Poppins", sans-serif; border-radius: 5px; letter-spacing: 2px; margin-left: 3px; width: 50px; font-weight: bold; cursor: pointer;';
+let styles = 'font-family: "Poppins", sans-serif; letter-spacing: 2px; margin-left: 3px; width: 50px; font-weight: bold; cursor: pointer; transition: 100ms ease-in-out;';
 const goodStyle = 'background: #ECFDF5; border: 1px solid #008964; color: #047857;';
 const okStyle = 'background: #FFFBEB; border: 1px solid #FFC524; color: #FBBF24;';
 const badStyle = 'background: #FEF2F2; border: 1px solid #FF7676; color: #F87171;';

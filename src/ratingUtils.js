@@ -83,8 +83,10 @@ button.style.letterSpacing = '';
 button.style.textAlign = '';
 button.style.display = 'flex';
 button.style.justifyContent = 'center';
-button.style.alignContent = 'center';
-button.style.borderTopLeftRadius = '0px';
+button.style.alignItems = 'center';
+button.style.borderBottomRightRadius = '5px';
+button.style.marginLeft = '0px';
+button.style.borderLeft = '0';
 const imageUrl = chrome.runtime.getURL("imgs/save.svg");
 const img = document.createElement('img');
 img.src = imageUrl;
@@ -99,7 +101,7 @@ const createButton = (difficulty, Newstyles) => {
   const button = document.createElement('button');
   button.classList.add('rmpBtn');
   button.style = Newstyles;
-  button.style.borderTopRightRadius = '0px';
+  button.style.borderTopLeftRadius = '5px';
   button.innerText = difficulty.avgRating;
   return button;
 };
@@ -107,7 +109,7 @@ const createButton = (difficulty, Newstyles) => {
 // if someone hovers the button open up the popup
 const addEventListeners = (button, hiddenDiv, profID, sButton) => {
   button.addEventListener('mouseenter', () => {
-      button.style.transform = 'scale(1.02)';
+      button.style.transform = 'scale(1.03)';
       button.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
       hiddenDiv.style.display = 'block';
   });
@@ -124,7 +126,7 @@ const addEventListeners = (button, hiddenDiv, profID, sButton) => {
   })
 
   sButton.addEventListener('mouseenter', () => {
-    sButton.style.transform = 'scale(1.02)';
+    sButton.style.transform = 'scale(1.03)';
     sButton.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
   });
 
