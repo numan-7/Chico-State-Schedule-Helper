@@ -76,7 +76,7 @@ const renderList = (buttonsData) => {
 
   buttonsData.forEach(profData => {
     savedWrapper.innerHTML += `
-        <div style = "margin-bottom: 5px; background: #ffffff; border: 1px solid black; width: 100%; padding: 5px; border-radius: 5px;">
+        <div class = "andIwonderIfyouknow"style = "margin-bottom: 5px; background: #ffffff; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; width: 100%; padding: 5px; border-radius: 5px;">
           <div class="titleBar" style="overflow: hidden; margin-top: -5px; font-family: 'Poppins', sans-serif; position: relative; display: flex; width: 100%;">
           <span style="position: relative; font-weight: 900; font-size: 1.35rem;">
           ${profData.avgRating} 
@@ -84,12 +84,12 @@ const renderList = (buttonsData) => {
               /5 
             </span>
           </span>  
-          <span id = "delete" data-id = "${profData.id}" style = "position: absolute; right: 0px; ">X</span>
+          <span class = "delete" id = "delete" data-id = "${profData.id}" style = "position: absolute; right: 0px; ">X</span>
           </div>
           <div style="margin-top: -5px; margin-bottom: -5px; font-weight: 800; font-size: .65rem;">Overall Quality Based on <u>${profData.numRatings} ratings</u></div>
           <span class = "name" style="font-size: 1.35rem; font-weight: 900; overflow: hidden; text-overflow: ellipsis;  white-space: nowrap;">
           <a href = "https://www.ratemyprofessors.com/professor/${profData.profID}" target="_blank">${profData.name}</a>
-        </span>
+          </span>
           <div style=" font-size: .85rem; font-family: 'Poppins', sans-serif; display: flex; flex-direction: row; justify-content: space-between;">
             <div style="font-size: 1.1rem; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center;">
               <span style="font-weight: 900;">${profData.percent}%</span>
@@ -103,6 +103,14 @@ const renderList = (buttonsData) => {
         </div>
       `;
   });
+  Array.from(document.getElementsByClassName('delete')).forEach((x) => {
+    x.addEventListener("mouseover", () => {
+      x.parentElement.parentElement.style.boxShadow = 'rgba(255, 0, 0, 0.3) 0px 1px 2px 0px, rgba(255, 0, 0, 0.15) 0px 1px 3px 1px';
+    })
+    x.addEventListener("mouseleave", () => {
+      x.parentElement.parentElement.style.boxShadow = 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px';
+    })
+  })
 };
 
 chrome.storage.sync.get(null, function(items) {
