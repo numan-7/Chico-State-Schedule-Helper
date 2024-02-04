@@ -46,12 +46,37 @@ function setupButtonObserver(button, iframeDocument) {
   }
 }
 
-async function getShoppingCartOrSchedulePage(iframeDocument) {
+async function otherPage(iframeDocument) {
+
+  let nodeList = document.querySelectorAll("ThisReturnsAnEmptyNodeList");
+  if(window.innerWidth < 1024) {
+
+    let smallerSelectSections = Array.from(iframeDocument.querySelectorAll('dd.cx-MuiTypography-root.css-1xnpogb.d-flex.align-items-center.pb-1.pr-1.cx-MuiTypography-body1'));
+    smallerSelectSections = smallerSelectSections.filter((_, i) => ((i == 4 || ( (i - 4) % 9 )== 0)));
+    smallerSelectSections.forEach((element) => {
+      nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
+    });
+    console.log(smallerSelectSections);
+    if(smallerSelectSections.length) {
+      return { targetElements: smallerSelectSections, version: 6 };
+    }
+
+    let smallerMySchedule = Array.from(iframeDocument.querySelectorAll('p.cx-MuiTypography-root.cx-MuiTypography-body2'));
+    smallerMySchedule = smallerMySchedule.filter((_, i) => (i % 6) == 0);
+    console.log(smallerMySchedule)
+    smallerMySchedule.forEach((element) => {
+      nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
+    });
+    console.log(smallerMySchedule)
+    if(smallerMySchedule.length) {
+      return { targetElements: smallerMySchedule, version: 5 };
+    }
+  }
+
   // check if user is on select sections page
   let version = 1;
   let onSelectSections = Array.from(iframeDocument.querySelectorAll("div.cx-MuiGrid-root.px-1.d-flex.css-t8n52r.cx-MuiGrid-item.cx-MuiGrid-zeroMinWidth.cx-MuiGrid-grid-xs-4"))
     .filter((div, i) => i % 5 === 0 && div !== undefined);
-  let nodeList = document.querySelectorAll("ThisReturnsAnEmptyNodeList");
   if (onSelectSections.length) {
     onSelectSections.forEach((element) => {
       nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
@@ -102,7 +127,7 @@ async function getVersionAndElements(iframeDocument) {
   let targetElements = Array.from(iframeDocument.getElementsByClassName('MuiLink-underlineHover'));
   if (!targetElements.length) {
     // clearly not on that page...so find the correct page
-    return await getShoppingCartOrSchedulePage(iframeDocument);
+    return await otherPage(iframeDocument);
   }
   return { targetElements, version: 0};
 }
@@ -154,10 +179,16 @@ const getProfNames = async () => {
       if (!prof.parentNode.classList.contains('prof-rating')) {
         // Going to insert the button inside a certain div depending on the version
         let parentElement = getCorrectParentNode(prof, version);
+        console.log(version)
         // Styling Changes Needed For Build Schedule Page
         if (version == 2) {
           parentElement.style.overflow = 'visible';
           parentElement.style.flexFlow = 'unset';
+        } else if (version == 5) {
+          parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.style.overflow = 'unset';
+        } else if (version == 6) {
+          parentElement.style.overflowX = 'unset';
+          parentElement.parentElement.parentElement.parentElement.style.overflowX = 'unset';
         }
         // Get all the info
         const difficulty = await getProfInfo(nameArray[i].profName);

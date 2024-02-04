@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Chico State Schedule Helper",
   "author": "Numan Khan, Luke Hazelton",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "host_permissions": ["https://*.cmsweb.csuchico.edu/*", "https://*.ratemyprofessors.com/*"],
   "description": "Extension that shows professor's rate my professor score next to their name on portal with a click of a button!",
   "icons": {
