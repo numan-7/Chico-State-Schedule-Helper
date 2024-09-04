@@ -124,7 +124,8 @@ async function otherPage(iframeDocument) {
 
 async function getVersionAndElements(iframeDocument) {
   // if user is under enroll in classes
-  let targetElements = Array.from(iframeDocument.getElementsByClassName('MuiLink-underlineHover'));
+  let targetElements = Array.from(iframeDocument.querySelectorAll('a[class^="MuiTypography-root"]'));
+
   if (!targetElements.length) {
     // clearly not on that page...so find the correct page
     return await otherPage(iframeDocument);
