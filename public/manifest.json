@@ -1,9 +1,12 @@
 {
   "manifest_version": 3,
   "name": "Chico State Schedule Helper",
-  "author": "Numan Khan, Luke Hazelton",
+  "author": "Numan K, Luke H, Tony F",
   "version": "1.1.4",
-  "host_permissions": ["https://*.cmsweb.csuchico.edu/*", "https://*.ratemyprofessors.com/*"],
+  "host_permissions": [
+    "https://*.cmsweb.csuchico.edu/*",
+    "https://*.ratemyprofessors.com/*"
+  ],
   "description": "Extension that shows professor's rate my professor score next to their name on portal with a click of a button!",
   "icons": {
     "16": "icons/icon_16.png",
@@ -17,14 +20,11 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": [
-    "activeTab",
-    "storage"
-  ],
+  "permissions": ["activeTab", "storage"],
   "content_scripts": [
     {
       "matches": [
-        "https://*.cmsweb.csuchico.edu/*", 
+        "https://*.cmsweb.csuchico.edu/*",
         "https://*.ratemyprofessors.com/*"
       ],
       "run_at": "document_idle",
@@ -33,18 +33,20 @@
         "contentScript.js",
         "teacherUtils.js",
         "ratingUtils.js"
-      ] 
+      ]
     }
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';",
-    "sandboxed_pages":"script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+    "sandboxed_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
   },
-  "web_accessible_resources": [{
-    "resources": ["imgs/save.svg"],
-    "matches": [
-      "https://*.cmsweb.csuchico.edu/*", 
-      "https://*.ratemyprofessors.com/*"
-    ]
-  }]
+  "web_accessible_resources": [
+    {
+      "resources": ["imgs/save.svg"],
+      "matches": [
+        "https://*.cmsweb.csuchico.edu/*",
+        "https://*.ratemyprofessors.com/*"
+      ]
+    }
+  ]
 }
