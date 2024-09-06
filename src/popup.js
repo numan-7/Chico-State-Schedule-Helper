@@ -4,13 +4,13 @@
 
 */
 
-const savedWrapper = document.getElementById('savedWrapper');
+const savedWrapper = document.getElementById('savedWrapper')
 
 // Adds a click event listener to the 'startButton' in the popup
 document.getElementById('startButton').addEventListener('click', () => {
   // Sends a message to the background script to initiate the search
   chrome.runtime.sendMessage({
-    request: 'startSearch',
+    request: 'startSearch'
   });
 
   // Updates Button Text
@@ -28,41 +28,34 @@ chrome.runtime.onMessage.addListener((request) => {
 });
 
 // Checks if the current tab's URL contains "csuchico"
-chrome.tabs.query(
-  {
-    active: true,
-    currentWindow: true,
-  },
-  function (tab) {
-    const tabUrl = tab[0].url;
+chrome.tabs.query({
+  active: true,
+  currentWindow: true
+}, function(tab) {
+  const tabUrl = tab[0].url;
 
-    // Disables the startButton and displays an error message if not on the CSUC Portal
-    if (!tabUrl.includes('csuchico')) {
-      document.getElementById('startButton').disabled = true;
-      document.getElementById('startButton').innerHTML =
-        '<span id = "error">navigate to csuc portal</span>';
-    }
+  // Disables the startButton and displays an error message if not on the CSUC Portal
+  if (!tabUrl.includes("csuchico")) {
+    document.getElementById('startButton').disabled = true;
+    document.getElementById('startButton').innerHTML = '<span id = "error">navigate to csuc portal</span>';
   }
-);
+});
 
 const handleDelete = (eventData) => {
   // Get the id of the item to be deleted
   const deleteId = eventData.target.getAttribute('data-id');
   // Get the existing data from storage
-  chrome.storage.sync.get('buttonsData', function (data) {
+  chrome.storage.sync.get('buttonsData', function(data) {
     if (data.buttonsData) {
       let buttonsData = JSON.parse(data.buttonsData);
       // Filter out the item to be deleted
-      buttonsData = buttonsData.filter((item) => item.id !== deleteId);
+      buttonsData = buttonsData.filter(item => item.id !== deleteId);
       // Update local storage
-      chrome.storage.sync.set(
-        {
-          buttonsData: JSON.stringify(buttonsData),
-        },
-        function () {
-          console.log('Data updated after deletion');
-        }
-      );
+      chrome.storage.sync.set({
+        'buttonsData': JSON.stringify(buttonsData)
+      }, function() {
+        console.log('Data updated after deletion');
+      });
       // Update the displayed list
       renderList(buttonsData);
     }
@@ -81,7 +74,7 @@ const renderList = (buttonsData) => {
     return;
   }
 
-  buttonsData.forEach((profData) => {
+  buttonsData.forEach(profData => {
     savedWrapper.innerHTML += `
         <div class = "andIwonderIfyouknow"style = "transition: 150ms ease-in-out; margin-bottom: 5px; background: #ffffff; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; width: 100%; padding: 5px; border-radius: 5px;">
           <div class="titleBar" style="overflow: hidden; margin-top: -5px; font-family: 'Poppins', sans-serif; position: relative; display: flex; width: 100%;">
@@ -111,28 +104,27 @@ const renderList = (buttonsData) => {
       `;
   });
 
+chrome.storage.sync.get(null, function (items) {
+  
   Array.from(document.getElementsByClassName('delete')).forEach((x) => {
-    x.addEventListener('mouseover', () => {
-      x.parentElement.parentElement.style.boxShadow =
-        'rgba(255, 0, 0, 0.3) 0px 1px 2px 0px, rgba(255, 0, 0, 0.15) 0px 1px 3px 1px';
+    x.addEventListener("mouseover", () => {
+      x.parentElement.parentElement.style.boxShadow = 'rgba(255, 0, 0, 0.3) 0px 1px 2px 0px, rgba(255, 0, 0, 0.15) 0px 1px 3px 1px';
       // x.parentElement.parentElement.style.transform = 'scale(0.99)';
-    });
-    x.addEventListener('mouseleave', () => {
-      x.parentElement.parentElement.style.boxShadow =
-        'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px';
+    })
+    x.addEventListener("mouseleave", () => {
+      x.parentElement.parentElement.style.boxShadow = 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px';
       // x.parentElement.parentElement.style.transform = 'scale(1.00)';
-    });
-  });
+    })
+  })
 };
 
-chrome.storage.sync.get(null, function (items) {
+chrome.storage.sync.get(null, function(items) {
   if (Object.keys(items).length === 0) {
     savedWrapper.innerHTML = `
       <div class="empty">
           <img style="opacity: 75%; height: 100px; width: 100px;" src="./imgs/save.svg" />
           <span style="font-weight: 400; color: grey; text-align: center;">save ratings by clicking the save icon next to the rating button!</span>
-      </div>
-      `;
+      </div>`
   } else {
     for (let key in items) {
       if (key === 'buttonsData') {
@@ -143,12 +135,13 @@ chrome.storage.sync.get(null, function (items) {
   }
 });
 
-savedWrapper.addEventListener('click', function (e) {
-  if (e.target && e.target.id === 'delete') {
+savedWrapper.addEventListener("click", function(e) {
+  if (e.target && e.target.id === "delete") {
     chrome.runtime.sendMessage({
       action: 'renableButton',
-      profId: e.target.getAttribute('data-id'),
-    });
+      profId: e.target.getAttribute('data-id')
+    })
     handleDelete(e);
   }
 });
+
