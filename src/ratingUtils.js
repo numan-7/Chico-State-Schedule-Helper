@@ -37,7 +37,7 @@ const createHiddenDiv = (difficulty) => {
   hiddenDiv.style.background = '#ffffff';
   hiddenDiv.style.borderRadius = '5px';
   hiddenDiv.style.border = '1px solid black';
-  hiddenDiv.style.height = '120px';
+  hiddenDiv.style.height = '125px';
   hiddenDiv.style.position = 'absolute';
   hiddenDiv.style.top = '-145px';
   hiddenDiv.style.left = '-81px';
