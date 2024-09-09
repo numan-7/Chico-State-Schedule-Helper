@@ -56,18 +56,15 @@ async function otherPage(iframeDocument) {
     smallerSelectSections.forEach((element) => {
       nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
     });
-    console.log(smallerSelectSections);
     if(smallerSelectSections.length) {
       return { targetElements: smallerSelectSections, version: 6 };
     }
 
     let smallerMySchedule = Array.from(iframeDocument.querySelectorAll('p.cx-MuiTypography-root.cx-MuiTypography-body2'));
     smallerMySchedule = smallerMySchedule.filter((_, i) => (i % 6) == 0);
-    console.log(smallerMySchedule)
     smallerMySchedule.forEach((element) => {
       nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
     });
-    console.log(smallerMySchedule)
     if(smallerMySchedule.length) {
       return { targetElements: smallerMySchedule, version: 5 };
     }
@@ -125,7 +122,6 @@ async function otherPage(iframeDocument) {
 async function getVersionAndElements(iframeDocument) {
   // if user is under enroll in classes
   let targetElements = Array.from(iframeDocument.querySelectorAll('a[class^="MuiTypography-root"]'));
-
   if (!targetElements.length) {
     // clearly not on that page...so find the correct page
     return await otherPage(iframeDocument);
@@ -216,7 +212,6 @@ const getProfNames = async () => {
                 buttonsData.forEach(obj => {
                   if(obj.id == difficulty.id){
                     sButton.disabled=true;
-                    console.log("here");
                     sButton.style.opacity = '0.5';
                     sButton.style.cursor = 'not-allowed';
                   }

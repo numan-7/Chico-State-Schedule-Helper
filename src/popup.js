@@ -103,8 +103,6 @@ const renderList = (buttonsData) => {
         </div>
       `;
   });
-
-chrome.storage.sync.get(null, function (items) {
   
   Array.from(document.getElementsByClassName('delete')).forEach((x) => {
     x.addEventListener("mouseover", () => {
@@ -124,7 +122,8 @@ chrome.storage.sync.get(null, function(items) {
       <div class="empty">
           <img style="opacity: 75%; height: 100px; width: 100px;" src="./imgs/save.svg" />
           <span style="font-weight: 400; color: grey; text-align: center;">save ratings by clicking the save icon next to the rating button!</span>
-      </div>`
+      </div>
+      `
   } else {
     for (let key in items) {
       if (key === 'buttonsData') {
@@ -144,4 +143,3 @@ savedWrapper.addEventListener("click", function(e) {
     handleDelete(e);
   }
 });
-

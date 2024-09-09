@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Chico State Schedule Helper",
   "author": "Numan K, Luke H, Tony F",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "host_permissions": [
     "https://*.cmsweb.csuchico.edu/*",
     "https://*.ratemyprofessors.com/*"
