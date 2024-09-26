@@ -60,25 +60,26 @@ async function otherPage(iframeDocument) {
       return { targetElements: smallerSelectSections, version: 6 };
     }
 
-    let smallerMySchedule = Array.from(iframeDocument.querySelectorAll('p.cx-MuiTypography-root.cx-MuiTypography-body2'));
-    smallerMySchedule = smallerMySchedule.filter((_, i) => (i % 6) == 0);
-    smallerMySchedule.forEach((element) => {
+    let smallerMySchedule = Array.from(iframeDocument.querySelectorAll('p.cx-MuiTypography-root.cx-MuiTypography-body1'))
+	    .filter(element => element.classList.length === 2);
+    let filteredSmallerMySchedule = smallerMySchedule.filter((_, i) => (i % 6) === 0);
+    filteredSmallerMySchedule.forEach((element) => {
       nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
     });
-    if(smallerMySchedule.length) {
-      return { targetElements: smallerMySchedule, version: 5 };
+    if(filteredSmallerMySchedule.length) {
+      return { targetElements: filteredSmallerMySchedule, version: 5 };
     }
   }
 
   // check if user is on select sections page
   let version = 1;
-  let onSelectSections = Array.from(iframeDocument.querySelectorAll("div.cx-MuiGrid-root.px-1.d-flex.css-t8n52r.cx-MuiGrid-item.cx-MuiGrid-zeroMinWidth.cx-MuiGrid-grid-xs-4"))
-    .filter((div, i) => i % 5 === 0 && div !== undefined);
-  if (onSelectSections.length) {
-    onSelectSections.forEach((element) => {
+  let onSelectSections = Array.from(iframeDocument.querySelectorAll("div.cx-MuiTypography-root.cx-MuiTypography-body2.cx-MuiTypography-noWrap")).filter(element => element.classList.length === 3);
+  let onFilteredSelectSections = onSelectSections.filter((_, i) => (i - 2) % 7 === 0);
+  if (onFilteredSelectSections.length) {
+    onFilteredSelectSections.forEach((element) => {
       nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
     });
-    return { targetElements: onSelectSections, version };
+    return { targetElements: onFilteredSelectSections, version };
   }
 
   // check if user is on schedle builder -> build schedule
@@ -89,39 +90,41 @@ async function otherPage(iframeDocument) {
     return { targetElements: onScheduleBuilderGenerator, version };
   }
 
-  // check if user is in shopping cart
-  version = 3;
-  let onShoppingCart = Array.from(iframeDocument.querySelectorAll('p.cx-MuiTypography-root.css-geruia.cx-MuiTypography-body2.cx-MuiTypography-colorInherit.cx-MuiTypography-noWrap.cx-MuiTypography-alignLeft'))
-    .filter((div, i) => (i % 8) == 6 && div !== undefined);
-  onShoppingCart.forEach((element) => {
-    nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
-  });
-  if (onShoppingCart.length) {
-    return { targetElements: onShoppingCart, version };
-  }
-
   // check if user is on my schedule or friends page
   version = 4;
-  let allElements = Array.from(iframeDocument.querySelectorAll('div.cx-MuiGrid-root.cx-MuiGrid-item.cx-MuiGrid-align-items-xs-center.cx-MuiGrid-grid-xs-2'));
-  if(allElements[0].textContent && allElements[0].textContent === 'FriendsActions') {
-    allElements = allElements.filter((_, i) => ((i - 1) % 8) == 0)
-  } else {
-    allElements = allElements.filter((_, i) => ((i % 7) == 0));
-  } 
-  allElements.forEach((element) => {
-    nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
+  let allElements = Array.from(iframeDocument.querySelectorAll('p.cx-MuiTypography-root.cx-MuiTypography-body1'))
+    .filter(element => element.classList.length === 2);
+  let filteredallElements = allElements.filter((_, i) => (i - 1) % 7 === 0);
+  filteredallElements.forEach((element) => {
+  nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
   });
-  
+  if (filteredallElements.length) {
+  return { targetElements: filteredallElements, version };
+  }  
+
   if(allElements.length) {
     return { targetElements: allElements, version };
   }
+    // check if user is in shopping cart
+    version = 3;
+    let onShoppingCart = Array.from(iframeDocument.querySelectorAll('p.cx-MuiTypography-root.cx-MuiTypography-body1'))
+      .filter((div, i) => (i % 8) == 6 && div !== undefined);
+    onShoppingCart.forEach((element) => {
+      nodeList.forEach((node) => node.appendChild(element.cloneNode(true)));
+    });
+    console.log(onShoppingCart)
+    if (onShoppingCart.length) {
+      return { targetElements: onShoppingCart, version };
+    }  
+  
   
   return {targetElements: '', version: 0};
 }
 
 async function getVersionAndElements(iframeDocument) {
   // if user is under enroll in classes
-  let targetElements = Array.from(iframeDocument.querySelectorAll('a[class^="MuiTypography-root"]'));
+  let targetElements = Array.from(iframeDocument.querySelectorAll('a.cx-MuiTypography-body1'));
+  console.log(targetElements)
   if (!targetElements.length) {
     // clearly not on that page...so find the correct page
     return await otherPage(iframeDocument);

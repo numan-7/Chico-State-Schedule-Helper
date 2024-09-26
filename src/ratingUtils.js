@@ -4,24 +4,6 @@ const createContainer = () => {
   container.classList.add('container');
   container.style.display = 'flex';
   container.style.position = 'relative';
-  container.innerHTML = `
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700;800;900&display=swap');
-      .thingy:after {
-        content:'';
-        position: absolute;
-        top: 118px;
-        right: 0;
-        left: 93px;
-        margin: 0 auto;
-        width: 0;
-        height: 0;
-        border-top: solid 10px rgb(0,0,0,.85);
-        border-left: solid 10px transparent;
-        border-right: solid 10px transparent;     
-      }
-    </style>
-  `;
   return container;
 };
 
@@ -37,9 +19,9 @@ const createHiddenDiv = (difficulty) => {
   hiddenDiv.style.background = '#ffffff';
   hiddenDiv.style.borderRadius = '5px';
   hiddenDiv.style.border = '1px solid black';
-  hiddenDiv.style.height = '125px';
+  hiddenDiv.style.height = '140px';
   hiddenDiv.style.position = 'absolute';
-  hiddenDiv.style.top = '-145px';
+  hiddenDiv.style.top = '-150px';
   hiddenDiv.style.left = '-81px';
   hiddenDiv.style.zIndex = '99999';
 
