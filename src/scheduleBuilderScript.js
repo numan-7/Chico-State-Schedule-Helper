@@ -14,25 +14,16 @@ const getButtons = (iframeDocument) => {
     const buttonNodes = iframeDocument.querySelectorAll('button.cx-MuiButtonBase-root.p-1.h-100.w-100.d-flex.flex-column.align-items-stretch.justify-content-start.text-left');
     const uniqueTextContents = new Set();
     const allButtons = [];
-    
     for (let i = 0; i < buttonNodes.length; i++) {
         const button = buttonNodes[i];
-        const firstPTag = button.querySelector('p.cx-MuiTypography-root');
-        if (firstPTag) {
-            const textContent = firstPTag.textContent.trim();
-            if (!uniqueTextContents.has(textContent)) {
-                uniqueTextContents.add(textContent);
-                allButtons.push(button);
-            }
+        const classListString = button.className;
+        if (!uniqueTextContents.has(classListString)) {
+            uniqueTextContents.add(classListString);
+            allButtons.push(button);
         }
     }
+    console.log(allButtons);
     return allButtons;
-}
-
-function delay(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
 }
 
 async function clickButtons() {
